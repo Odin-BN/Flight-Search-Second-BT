@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./Flight-Search-Backend/Flight-Search
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - API_KEY=${API_KEY}
+      - API_SECRET=${API_SECRET}
+    networks:
+      - app_network
+
+
+  frontend:
+    build:
+      context: ./Frontend-tests/FS-BK2_II
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
