@@ -3,24 +3,23 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./Flight-Search-Backend/Flight-Search
+      context: ./Flight-Search
       dockerfile: Dockerfile
     ports:
       - "9090:9090"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - API_KEY=${API_KEY}
-      - API_SECRET=${API_SECRET}
+      - API_KEY={Insert_your_API_key}
+      - API_SECRET={Insert_your_API_secret}
     networks:
       - app_network
 
 
   frontend:
     build:
-      context: ./Frontend-tests/FS-BK2_II
+      context: ./FS-BK2_II
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
     depends_on:
       - backend
     networks:

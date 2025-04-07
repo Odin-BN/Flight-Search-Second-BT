@@ -1,14 +1,14 @@
 #Image of Gradle for build
-#FROM gradle:7.4-jdk17 AS build
+FROM gradle:8.4.0-jdk17 AS build
 
 #Work directory
-#WORKDIR /app
+WORKDIR /app
 
 #Copy the files
-#COPY . .
+COPY . .
 
 #Generate the .jar file
-#RUN gradle build --no-daemon
+RUN ./gradlew build --no-daemon
 
 #Use image for OpenJDK 17
 FROM openjdk:17-jdk-slim
@@ -17,9 +17,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 #Copy the file to compile on Gradle
-COPY build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 #COPY --from=build /app/build/libs/*.jar app.jar
-COPY .env /app/.env
+
+#COPY .env /app/.env
 #Port where the application is executing
 EXPOSE 9090
 

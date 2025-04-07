@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secondbreakabletoy.Flight_Search.model.*;
 import com.sun.jdi.IntegerValue;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -22,11 +23,18 @@ import java.util.stream.Collectors;
 @Service
 public class FlightServices {
 
-    Dotenv dotenv = Dotenv.load();
+    //Dotenv dotenv = Dotenv.load();
 
     private final WebClient webClient;
-    private final String api_key = dotenv.get("API_KEY");
-    private final String api_secret = dotenv.get("API_SECRET");
+
+    @Value("${API_KEY}")
+    private String api_key;
+    //private final String api_key = dotenv.get("API_KEY");
+
+    @Value("${API_SECRET}")
+    private String api_secret;
+    //private final String api_secret = dotenv.get("API_SECRET");
+
     private final String AUTH_URL = "https://test.api.amadeus.com/v1/security/oauth2/token";
     private final String LOCATIONS_URL = "https://test.api.amadeus.com/v1/reference-data/locations";
     private final String AIRLINES_URL = "https://test.api.amadeus.com/v1/reference-data/airlines";
