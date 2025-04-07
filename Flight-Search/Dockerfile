@@ -1,5 +1,5 @@
 #Image of Gradle for build
-FROM gradle:8.4.0-jdk17 AS build
+FROM gradle:8.13.0-jdk17 AS builder
 
 #Work directory
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 #Generate the .jar file
-RUN ./gradlew build --no-daemon
+RUN gradle build --no-daemon
 
 #Use image for OpenJDK 17
 FROM openjdk:17-jdk-slim
@@ -17,7 +17,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 #Copy the file to compile on Gradle
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=builder /app/build/libs/*.jar app.jar
 #COPY --from=build /app/build/libs/*.jar app.jar
 
 #COPY .env /app/.env
